@@ -7,6 +7,7 @@ from scipy.interpolate import CubicSpline
 from scipy.optimize import minimize_scalar
 
 from transformer import Transformer
+from utilities import curvature
 
 from scipy.spatial import ConvexHull
 
@@ -136,6 +137,12 @@ class Session:
                 mask = (stime <= self.data['gps_time']) & (self.data['gps_time'] <= etime)
                 self.data['lap'][mask] = i
                 stime = etime
+                
+        # Add Radius of curvative
+        if 'x' in self.data:
+            if 'y' in self.data:
+                self.data['curvature'] = curvature(self.data['x'], self.data['y'])
+        
        
     def num_laps(self):
         return len(self.lap_times)
@@ -261,3 +268,9 @@ class Session:
         for key, valarray in self.data.items():
             ans[key] = valarray[mask]
         return ans
+    
+    def get_data(self, key, key_range, out_key):
+        m1 = key_range[0] < self.data[key]
+        m2 = self.data[key] < key_range[1]
+        mask  = np.all( np.row_stack((m1, m2)), axis=0)
+        return self.data[out_key][mask]
