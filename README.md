@@ -9,10 +9,12 @@ The requirments are pretty standard with the addition of the pyproj library for 
 - [Pyproj](https://pypi.org/project/pyproj/) - For cartographic projections and coordinate transformations
 
 ## To Run
-At the moment you only need to run a single file to generate the plots.
+There are 3 programs that generate plots which are pretty self explanitory.
 ```
 > cd src
-> python main.py
+> python plot_track.py
+> python plot_soft_tire_turns.py
+> python plot_hard_tire_turns.py
 ```
 
 ## Other Stuff
